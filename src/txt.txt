@@ -1,0 +1,22 @@
+export interface MessageEnvelopeObject {
+    /** Header date */
+    date?: Date;
+    /** Message subject (unicode) */
+    subject?: string;
+    /** Message ID of the message */
+    messageId?: string;
+    /** Message ID from In-Reply-To header */
+    inReplyTo?: string;
+    /** Array of addresses from the From: header */
+    from?: MessageAddressObject[];
+    /** Array of addresses from the Sender: header */
+    sender?: MessageAddressObject[];
+    /** Array of addresses from the Reply-To: header */
+    replyTo?: MessageAddressObject[];
+    /** Array of addresses from the To: header */
+    to?: MessageAddressObject[];
+    /** Array of addresses from the Cc: header */
+    cc?: MessageAddressObject[];
+    /** Array of addresses from the Bcc: header */
+    bcc?: MessageAddressObject[];
+}

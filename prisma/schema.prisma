@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Email{
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  subject   String
+  date     String
+  messageId   String
+  replyTo     EmailAddress[]
+   to         EmailAddress[]
+   from       EmailAddress[]
+   sender      EmailAddress[]
+   body       String
+   attachment   Json
+}
+model EmailAddress{
+id String @default(auto()) @map("_id") @db.ObjectId
+name String
+address String
+EmailId String @db.ObjectId
+email Email @relation(fields: [EmailId],references: [id])
+}

@@ -1,0 +1,24 @@
+{
+  "name": "imap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.15.1",
+  "dependencies": {
+    "@types/imapflow": "^1.0.23",
+    "@types/mongoose": "^5.11.97",
+    "imapflow": "^1.0.197",
+    "mailparser": "^3.7.4",
+    "mongoose": "^8.18.2",
+    "moongoose": "^0.0.5",
+    "prisma": "^6.16.2"
+  }
+}
