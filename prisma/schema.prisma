@@ -1,35 +1,120 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Email{
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  subject   String
-  date     String
-  messageId   String
-  replyTo     EmailAddress[]
-   to         EmailAddress[]
-   from       EmailAddress[]
-   sender      EmailAddress[]
-   body       String
-   attachment   Json
+model School {
+  id       Int      @id @default(autoincrement())
+  name     String
+  domain   String?
+  users    User[]
+  students Student[]
+  classes  Class[]
+  parents  Parent[]
 }
-model EmailAddress{
-id String @default(auto()) @map("_id") @db.ObjectId
-name String
-address String
-EmailId String @db.ObjectId
-email Email @relation(fields: [EmailId],references: [id])
+
+model User {
+  id           Int      @id @default(autoincrement())
+  schoolId     Int
+  email        String   @unique
+  passwordHash String
+  role         String
+  createdAt    DateTime @default(now())
+  school       School   @relation(fields: [schoolId], references: [id])
+
+  @@index([schoolId])
+}
+
+model Student {
+  id          Int              @id @default(autoincrement())
+  schoolId    Int
+  admissionNo String
+  firstName   String
+  lastName    String?
+  dob         DateTime?
+  createdAt   DateTime @default(now())
+  school      School           @relation(fields: [schoolId], references: [id])
+  parents     ParentLink[]
+  classes     StudentClass[]
+  attendance  Attendance[]
+  grades      Grade[]
+
+  @@unique([schoolId, admissionNo]) // avoids duplicate roll numbers in same school
+  @@index([schoolId])
+}
+
+model Parent {
+  id       Int          @id @default(autoincrement())
+  schoolId Int
+  name     String
+  email    String?
+  phone    String?
+  school   School       @relation(fields: [schoolId], references: [id])
+  students ParentLink[]
+
+  @@index([schoolId])
+}
+
+model ParentLink {
+  id        Int     @id @default(autoincrement())
+  studentId Int
+  parentId  Int
+  student   Student @relation(fields: [studentId], references: [id])
+  parent    Parent  @relation(fields: [parentId], references: [id])
+
+  @@unique([studentId, parentId])
+}
+
+model Class {
+  id        Int             @id @default(autoincrement())
+  schoolId  Int
+  name      String
+  gradeLevel Int
+  school    School          @relation(fields: [schoolId], references: [id])
+  students  StudentClass[]
+  attendance Attendance[]
+  grades     Grade[]
+
+  @@index([schoolId])
+}
+
+model StudentClass {
+  id        Int     @id @default(autoincrement())
+  studentId Int
+  classId   Int
+  student   Student @relation(fields: [studentId], references: [id])
+  class     Class   @relation(fields: [classId], references: [id])
+
+  @@unique([studentId, classId])
+}
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  classId   Int
+  date      DateTime
+  status    String
+  student   Student  @relation(fields: [studentId], references: [id])
+  class     Class    @relation(fields: [classId], references: [id])
+
+  @@index([classId, date])
+  @@index([studentId, date])
+}
+
+model Grade {
+  id             Int      @id @default(autoincrement())
+  studentId      Int
+  classId        Int
+  assessmentName String
+  score          Int
+  maxScore       Int
+  student        Student  @relation(fields: [studentId], references: [id])
+  class          Class    @relation(fields: [classId], references: [id])
+
+  @@index([studentId])
+  @@index([classId])
 }

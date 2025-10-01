@@ -1,13 +1,14 @@
 import { ImapFlow } from 'imapflow';
 import { simpleParser } from 'mailparser';
 import EmailModule from "../db/db.js"
+
 const client = new ImapFlow({
     host: 'imap.ethereal.email',
     port: 993,
     secure: true,
     auth: {
-        user: 'verdie.hammes@ethereal.email',
-        pass: 'hhsMR1EZzqubqhTFEP'
+        user: 'arvel31@ethereal.email',
+        pass: 'mbvDqAZadCbnuC2GqK'
     },
         logger:false
 });
@@ -27,6 +28,7 @@ const main = async () => {
         }
         let message = await client.fetchOne(client.mailbox.exists, {bodyStructure:true,flags:true, envelope:true, source: true });
         if(message && message.source){
+            console.log(client.mailbox.exists);
             const parsed = await simpleParser(message.source)
             
             let data =new EmailModule({
@@ -34,7 +36,7 @@ const main = async () => {
             date:message.envelope?.date,
             messageId:message.envelope?.messageId,
             replyTo:message.envelope?.replyTo,
-            to:message.envelope?.to,
+                    to:message.envelope?.to,
             from:message.envelope?.from,
             sender:message.envelope?.sender,
             body: parsed.text,
@@ -57,6 +59,7 @@ const main = async () => {
     } finally {
         // Make sure lock is released, otherwise next `getMailboxLock()` never returns
         lock.release();
+        
     }
 
     // log out and close connection

@@ -20,3 +20,14 @@ export interface MessageEnvelopeObject {
     /** Array of addresses from the Bcc: header */
     bcc?: MessageAddressObject[];
 }
+
+// const client = new ImapFlow({
+//     host: 'mailslurpimap.click',
+//     port: 8993,
+//     secure: true,
+//     auth: {
+//         user: 'rhrhrh',
+//         pass: 'IltWVAsYhZWUeGXm5CgXLcdssO3r5OFl'
+//     },
+//     logger:false
+// });

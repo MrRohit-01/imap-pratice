@@ -10,7 +10,7 @@
     "module": "nodenext",
     "target": "esnext",
     "types": [],
-    "allowImportingTsExtensions":true,
+    // "allowImportingTsExtensions":true,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
