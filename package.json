@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "dev:ts": "nodemon --watch src --ext ts,js --exec \"ts-node ./src/auth.ts\""
+    "dev:ts": "nodemon --watch src --ext ts,js --exec \"node --loader ts-node/esm ./src/index.ts\""
   },
   "keywords": [],
   "author": "",
@@ -22,7 +22,10 @@
     "imapflow": "^1.0.197",
     "mailparser": "^3.7.4",
     "mongoose": "^8.18.2",
-    "prisma": "^6.16.2",
-    "ts-node": "^10.9.2"
+    "prisma": "^6.16.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
