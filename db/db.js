@@ -33,8 +33,6 @@ const EmailSchema = new mongoose.Schema({
     attachments: { type: Array, default: [] }
 });
 
-
-  await mongoose.connect('mongodb://127.0.0.1:27017/test');
   const Email = mongoose.model('Email', EmailSchema);
 
 
